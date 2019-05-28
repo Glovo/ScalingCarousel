@@ -9,6 +9,11 @@
 //
 import UIKit
 
+/// A delegate called each time the invisibleScrollView is being scrolled. Intended for custom offset changes.
+public protocol ScalingCarouselViewOffsetDelegate: class {
+  func updateOffset(_ scrollView: UIScrollView)
+}
+
 /*
  ScalingCarouselView is a subclass of UICollectionView which
  is intended to be used to carousel through cells which don't
@@ -258,7 +263,7 @@ extension InvisibleScrollDelegate: UIScrollViewDelegate {
          Move the ScalingCarousel base d on the
          contentOffset of the 'invisible' UIScrollView
         */
-        updateOffSet()
+        updateOffSet(scrollView)
         
         // Also, this is where we scale our cells
         for cell in visibleCells {
@@ -274,7 +279,12 @@ extension InvisibleScrollDelegate: UIScrollViewDelegate {
         lastCurrentCenterCellIndex = indexPath
     }
     
-    private func updateOffSet() {
+    private func updateOffSet(_ scrollView: UIScrollView) {
+      if let offsetDelegate = self.offsetDelegate {
+        offsetDelegate.updateOffset(scrollView)
+      }
+      else {
         contentOffset = invisibleScrollView.contentOffset
+      }
     }
 }
