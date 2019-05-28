@@ -27,6 +27,9 @@ open class ScalingCarouselView: UICollectionView {
     private var lastCurrentCenterCellIndex: IndexPath?
 
     // MARK: - Properties (Public)
+  
+    /// When present, overrides updateOffset function triggered by the invisible scrollView
+    weak public var offsetDelegate: ScalingCarouselViewOffsetDelegate?
     
     /// Inset of the main, center cell
     @IBInspectable public var inset: CGFloat = 0.0 {
